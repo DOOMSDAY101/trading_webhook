@@ -66,16 +66,18 @@ def send_email(to_email, subject, message):
         return f"Error sending email: {e}"
 
 
+@app.route('/', methods=['GET'])
+def home():
+    return jsonify({"message": "Welcome to the Trading Webhook API!"}), 200
+
 # Webhook Endpoint
 @app.route('/webhook', methods=['POST'])
 def webhook():
     data = request.json
     print("Received data:", data)
 
-    # phone_number = "+2349065304004"
-    # email = "georgequin19@gmail.com"
-    phone_number = "+2348088890349"
-    email = "ifeoluwasulaiman403@gmail.com"
+    phone_number = "+2349065304004"
+    email = "georgequin19@gmail.com"
     message = json.dumps(data, indent=2)
     message_str = "\n".join([f"{key}: {value}" for key, value in data.items()])
 
