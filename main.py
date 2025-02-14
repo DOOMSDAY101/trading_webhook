@@ -22,6 +22,9 @@ SMTP_USER = os.getenv("SMTP_USER")
 SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
 SMTP_FROM_EMAIL = os.getenv("SMTP_FROM_EMAIL")
 TERMII_SENDER_ID = os.getenv("TERMII_SENDER_ID")
+PHONE_NUMBER_1 = os.getenv("PHONE_NUMBER_1")
+PHONE_NUMBER_2 = os.getenv("PHONE_NUMBER_2")
+RECEIVER_EMAIL_1 = os.getenv("RECEIVER_EMAIL_1")
 
 def send_sms(phone_number, message):
     url = f"{TERMII_BASE_URL}/api/sms/send/bulk"
@@ -76,8 +79,8 @@ def webhook():
     data = request.json
     print("Received data:", data)
 
-    phone_number = ["+2349065304004", "+2348071814664"]
-    email = "georgequin19@gmail.com"
+    phone_number = [PHONE_NUMBER_1, PHONE_NUMBER_2]
+    email = RECEIVER_EMAIL_1
 
     message = json.dumps(data, indent=2)
     message_str = "\n".join([f"{key}: {value}" for key, value in data.items()])

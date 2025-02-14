@@ -1,2 +1,4 @@
 .env
 webhook_venv
+__pycache__/
+*.pyc
