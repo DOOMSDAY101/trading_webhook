@@ -76,15 +76,22 @@ def home():
 # Webhook Endpoint
 @app.route('/webhook', methods=['POST'])
 def webhook():
-    data = request.json
+    if request.content_type == 'application/json':
+        data = request.json
+    elif request.content_type == 'text/plain':
+        data = request.data.decode()
+    else:
+        return jsonify({"error": "Unsupported Content-Type"}), 400
     print("Received data:", data)
 
     phone_number = [PHONE_NUMBER_1, PHONE_NUMBER_2]
     email = RECEIVER_EMAIL_1
 
-    message = json.dumps(data, indent=2)
-    message_str = "\n".join([f"{key}: {value}" for key, value in data.items()])
-
+    if isinstance(data, dict):
+        message = json.dumps(data, indent=2)
+        message_str = "\n".join([f"{key}: {value}" for key, value in data.items()])
+    else:
+        message = message_str = data
     # Send SMS and Email
     sms_response = send_sms(phone_number,  message_str) if phone_number else "No phone provided."
     email_response = send_email(email, "Trading Alert!", message) if email else "No email provided."
